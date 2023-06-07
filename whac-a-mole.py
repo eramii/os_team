@@ -121,7 +121,7 @@ class WhacAMoleGame(QMainWindow):
         self.timer = QTimer()
         self.timer.timeout.connect(self.timer_event)
         self.timer.start(self.timer_interval)
-        self.bgm = QSound("C:/Users/wjg/Downloads/mole_bgm.wav") #bgm 설정
+        self.bgm = QSound("mole_bgm.wav") #bgm 설정
         self.bgm.play()
 
     def init_game(self):            # 초기화 함수
