@@ -77,13 +77,14 @@ class WhacAMoleGame(QMainWindow):
 
 
     def on_whack(self, hole_num):
-        if self.hole == hole_num:
-            hole = self.holes[hole_num - 1]
-            hole.setEnabled(False)
-            hole.setText('_')
-            hole.setStyleSheet("background-color: red; color: black;")
-            self.whacks += 1
-            self.score_label.setText(str(self.whacks))
+        if hole_num == self.hole:           # 두더지를 잡은 경우:    점수 +1 & 해당 구멍 비활성화
+            self.whacks += 1    
+        mole_hole = self.holes[self.hole - 1]
+        fake_hole = self.holes[self.fake_hole - 1]
+        self.disable_hole(mole_hole)
+        self.disable_hole(fake_hole)
+
+        self.score_label.setText(str(self.whacks))  # 점수 갱신
 
     def whac_a_mole(self):
         #첫번째 이후
