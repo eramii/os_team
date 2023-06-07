@@ -86,20 +86,25 @@ class WhacAMoleGame(QMainWindow):
 
         self.score_label.setText(str(self.whacks))  # 점수 갱신
 
-    def whac_a_mole(self):
-        #첫번째 이후
-        if self.hole != 0:
-            hole = self.holes[self.hole - 1]
-            hole.setEnabled(False)
-            hole.setText('_')
-            hole.setStyleSheet("background-color: black;")
+    def whac_a_mole(self):          # 두더지 및 다른 동물 등장하는 함수
 
-        #게임 시작하고 나서 처음 두더지
-        self.hole = random.randint(1, 9)
-        hole = self.holes[self.hole - 1]
-        hole.setEnabled(True)
-        hole.setText('O')  #두더지 부분
-        hole.setStyleSheet("background-color: green; color: black;") #두더지부분
+        self.choose_hole()          # 동물들이 나타날 구멍 고르기
+
+        mole_hole = self.holes[self.hole - 1]
+        fake_hole = self.holes[self.fake_hole - 1]
+        #나머지 hole들은 비활성화
+        for hole in self.holes:
+            if hole != mole_hole and hole != fake_hole:
+                self.disable_hole(hole)
+        # choose_hole()을 통해 설정된 self.hole과 self.fake_hole을 기준으로
+        # 두더지와 다른 동물을 나타나게함            
+        mole_hole.setEnabled(True)
+        mole_hole.setIcon(self.mole_icon)
+        mole_hole.setIconSize(mole_hole.size())
+
+        fake_hole.setEnabled(True)
+        fake_hole.setIcon(self.fake_icon)
+        fake_hole.setIconSize(fake_hole.size())
 
     
     def start_game(self):
