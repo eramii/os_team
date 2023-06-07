@@ -1,7 +1,8 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton, QMessageBox
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont,QPixmap,QIcon
 from PyQt5.QtCore import Qt, QTimer
-from PyQt5.QtMultimedia import QSound  #bgm모듈 추가
+from PyQt5.QtMultimedia import QSound  #bgm모듈 추가 Qsound
+
 import random
 
 class WhacAMoleGame(QMainWindow):
@@ -10,6 +11,9 @@ class WhacAMoleGame(QMainWindow):
         self.whacks = 0   
         self.hole = 0
         self.fake_hole = 0 #다른 동물이 나올 구멍
+        self.mole_icon = QIcon(QPixmap("mole.png")) # 두더지 아이콘
+        self.fake_icon = QIcon()                       # 다른 동물 아이콘
+        self.fake_images = ["chicken.png", "squid.png", "duck.png"]   # 다른 동물 이미지 경로 리스트
         self.remaining_num=30
         self.timer = QTimer()
         #일정한 시간간격마다 self.whac_a_mole 호출
