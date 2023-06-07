@@ -124,6 +124,14 @@ class WhacAMoleGame(QMainWindow):
         self.bgm = QSound("C:/Users/wjg/Downloads/mole_bgm.wav") #bgm 설정
         self.bgm.play()
 
+    def init_game(self):            # 초기화 함수
+        self.whacks = 0
+        self.score_label.setText(str(self.whacks))
+
+        for hole in self.holes:     # 모든 구멍에 대해 초기화
+            self.disable_hole(hole)
+
+
 
     
     def timer_event(self):
