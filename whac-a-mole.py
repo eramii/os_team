@@ -9,6 +9,7 @@ class WhacAMoleGame(QMainWindow):
         super().__init__()
         self.whacks = 0   
         self.hole = 0
+        self.fake_hole = 0 #다른 동물이 나올 구멍
         self.remaining_num=30
         self.timer = QTimer()
         #일정한 시간간격마다 self.whac_a_mole 호출
@@ -25,9 +26,9 @@ class WhacAMoleGame(QMainWindow):
         self.tip_label.setGeometry(0, 497, 500, 23) #위젯 위치,크기
 
         self.lab_label = QLabel("당첨의 주인공은 누구?!", self)
-        self.lab_label.setFont(QFont("Trebuchet MS", 30))
+        self.lab_label.setFont(QFont("Trebuchet MS", 20))
         self.lab_label.setStyleSheet("background-color: blue; color: yellow;")
-        self.lab_label.setGeometry(110, 0, 280, 50)
+        self.lab_label.setGeometry(100, 0, 350, 50)
 
         self.score_label = QLabel(str(self.whacks), self)
         self.score_label.setFont(QFont('Bahnschrift', 30))
@@ -47,18 +48,19 @@ class WhacAMoleGame(QMainWindow):
 
 
         self.holes=[]
-        for i in range(9):
+        for i in range(9):          # 비활성화 및 배경 검은색 변경은 disable_hole 함수로 위임
             hole = QPushButton(self)
             hole.setGeometry((i % 3) * 200 + 20, (i // 3) * 130 + 160, 90, 60)
-            hole.setStyleSheet("background-color: black;")
-            hole.setEnabled(False)  #비활성화 상태
             hole.clicked.connect(lambda checked, hole_num=i+1: self.on_whack(hole_num))
             self.holes.append(hole)
 
-        
         self.show()
 
-    
+#init 함수에 있던 버튼 비활성화&배경변경 기능 함수
+    def disable_hole(self, hole):   # 구멍 비활성화하는 함수
+        hole.setEnabled(False)
+        hole.setStyleSheet("background-color: red; color: black;")
+
 
     def on_whack(self, hole_num):
         if self.hole == hole_num:
