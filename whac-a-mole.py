@@ -20,35 +20,36 @@ class WhacAMoleGame(QMainWindow):
         #self.timer.timeout.connect(self.whac_a_mole) ->뒤에서 connect가 겹쳐서 뒤에 추가함 
         
         self.setWindowTitle("김지수교수님의 추첨게임")  #창의 제목
-        self.setStyleSheet("background-color: green;")#위젯 스타일
+        
+        self.setStyleSheet("background-color: black;")#위젯 스타일
         self.setFixedSize(500, 550) #창크기 고정
         self.setWindowFlags(Qt.WindowStaysOnTopHint)#해당 창을 항상 다른 창 위에 표시
         
         #텍스트 표시
         self.tip_label = QLabel("Play with mouse for best experience", self)
-        self.tip_label.setStyleSheet("background-color: black; color: green;")
+        self.tip_label.setStyleSheet("background-color: black; color: white;")
         self.tip_label.setGeometry(0, 497, 500, 23) #위젯 위치,크기
 
         self.lab_label = QLabel("당첨의 주인공은 누구?!", self)
-        self.lab_label.setFont(QFont("Trebuchet MS", 20))
-        self.lab_label.setStyleSheet("background-color: blue; color: yellow;")
-        self.lab_label.setGeometry(100, 0, 350, 50)
+        self.lab_label.setFont(QFont("Malgun Gothic", 20))
+        self.lab_label.setStyleSheet("background-color: black; color: white;")
+        self.lab_label.setGeometry(90, 0, 350, 50)
 
         self.score_label = QLabel(str(self.whacks), self)
         self.score_label.setFont(QFont('Bahnschrift', 30))
-        self.score_label.setStyleSheet("background-color: yellow;")
-        self.score_label.setGeometry(170, 52, 160, 38)
-        self.score_label.move(170, 52) # 위젯 위치 이동
+        self.score_label.setStyleSheet("background-color: white;")
+        self.score_label.setGeometry(240, 52, 160, 38)
+        self.score_label.move(180, 52) # 위젯 위치 이동
 
         self.remark_label = QLabel("", self)
         self.remark_label.setFont(QFont("Centaur", 20))
-        self.remark_label.setStyleSheet("background-color: red; color: yellow;")
+        self.remark_label.setStyleSheet("background-color: black; color: white;")
         self.remark_label.setGeometry(130, 107, 220, 28)
 
         self.time_label = QLabel(str(self.remaining_num),self)
-        self.remark_label.setFont(QFont("Centaur", 20))
-        self.remark_label.setStyleSheet("background-color: red; color: yellow;")
-        self.remark_label.setGeometry(100, 107, 220, 28)
+        self.time_label.setFont(QFont("Bahnschrift", 20))
+        self.time_label.setStyleSheet("background-color: black; color: white;")
+        self.time_label.setGeometry(240, 107, 220, 28)
 
 
         self.holes=[]
@@ -64,7 +65,7 @@ class WhacAMoleGame(QMainWindow):
     def disable_hole(self, hole):   # 구멍 비활성화하는 함수
         hole.setEnabled(False)
         hole.setIcon(QIcon())
-        hole.setStyleSheet("background-color: red; color: black;")
+        hole.setStyleSheet("background-color: grey; color: black;")
 
     def choose_hole(self):          # 두더지와 다른 동물이 나올 위치 선택
         # 두더지가 나올 위치
@@ -75,6 +76,12 @@ class WhacAMoleGame(QMainWindow):
         fake_img_path = random.choice(self.fake_images)
         self.fake_icon = QIcon(QPixmap(fake_img_path))  # 다른 동물 아이콘 설정
 
+    def init_game(self):            # 초기화 함수
+        self.whacks = 0
+        self.score_label.setText(str(self.whacks))
+
+        for hole in self.holes:     # 모든 구멍에 대해 초기화
+            self.disable_hole(hole)
 
     def on_whack(self, hole_num):
         if hole_num == self.hole:           # 두더지를 잡은 경우:    점수 +1 & 해당 구멍 비활성화
@@ -111,9 +118,7 @@ class WhacAMoleGame(QMainWindow):
 
     
     def start_game(self):
-        self.whacks = 0
-        self.score_label.setText(str(self.whacks))
-        self.hole = 0
+        self.init_game() 
         self.remaining_num= 30  # 두더지 나오는 수
         self.timer_interval = 1000  #단위: 밀리초(1000밀리초 = 1초)
 
@@ -124,12 +129,7 @@ class WhacAMoleGame(QMainWindow):
         self.bgm = QSound("mole_bgm.wav") #bgm 설정
         self.bgm.play()
 
-    def init_game(self):            # 초기화 함수
-        self.whacks = 0
-        self.score_label.setText(str(self.whacks))
 
-        for hole in self.holes:     # 모든 구멍에 대해 초기화
-            self.disable_hole(hole)
 
 
 
@@ -152,9 +152,9 @@ class WhacAMoleGame(QMainWindow):
         self.bgm.stop()  # BGM 정지
     
         # 게임 종료 메시지 박스 표시
-        message = "게임 종료!\n총 점수: {}".format(self.whacks)
+        message = "게임 종료!\n총 점수: {}".format(self.whacks) 
         QMessageBox.information(self, "게임 종료", message)
-    
+
 
 
     
