@@ -63,7 +63,17 @@ class WhacAMoleGame(QMainWindow):
 #init 함수에 있던 버튼 비활성화&배경변경 기능 함수
     def disable_hole(self, hole):   # 구멍 비활성화하는 함수
         hole.setEnabled(False)
+        hole.setIcon(QIcon())
         hole.setStyleSheet("background-color: red; color: black;")
+
+    def choose_hole(self):          # 두더지와 다른 동물이 나올 위치 선택
+        # 두더지가 나올 위치
+        self.hole = random.randint(1, 9)
+        # 두더지가 나올 위치가 아닌 다른 동물이 나올 위치 선택
+        self.fake_hole = random.choice([i for i in range(1, 10) if i != self.hole])
+        # fake_hole에 어떤 동물이 나올지 랜덤선택
+        fake_img_path = random.choice(self.fake_images)
+        self.fake_icon = QIcon(QPixmap(fake_img_path))  # 다른 동물 아이콘 설정
 
 
     def on_whack(self, hole_num):
