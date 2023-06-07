@@ -79,6 +79,9 @@ class WhacAMoleGame(QMainWindow):
     def on_whack(self, hole_num):
         if hole_num == self.hole:           # 두더지를 잡은 경우:    점수 +1 & 해당 구멍 비활성화
             self.whacks += 1    
+        elif hole_num == self.fake_hole:    # 다른 동물을 잡은 경우: 점수 -1 & 해당 구멍 비활성화
+            self.whacks -= 1
+
         mole_hole = self.holes[self.hole - 1]
         fake_hole = self.holes[self.fake_hole - 1]
         self.disable_hole(mole_hole)
