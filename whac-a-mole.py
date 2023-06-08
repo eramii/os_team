@@ -165,7 +165,6 @@ class StartScene(QMainWindow):
 
         self.background_label = QLabel(self)
         self.background_label.setGeometry(0, 0, 800, 600)
-        self.background_label.setPixmap(QPixmap('start.png'))
 
         self.central_widget = QWidget(self)
         self.setCentralWidget(self.central_widget)
