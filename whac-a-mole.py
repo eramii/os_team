@@ -187,7 +187,6 @@ class StartScene(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication([])
-    game = WhacAMoleGame()
-    game.start_game()
-    game.start_scene.show()
+    start_scene = StartScene()
+    start_scene.show()
     app.exec_()
