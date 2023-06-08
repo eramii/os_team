@@ -128,11 +128,6 @@ class WhacAMoleGame(QMainWindow):
         self.timer.start(self.timer_interval)
         self.bgm = QSound("mole_bgm.wav") #bgm 설정
         self.bgm.play()
-
-
-
-
-
     
     def timer_event(self):
         self.remaining_num -= 1
@@ -172,7 +167,7 @@ class StartScene(QMainWindow):
 
         self.start_button = QPushButton('Start Game', self)
         self.start_button.setFont(QFont('Arial', 16))
-        self.start_button.clicked.connect(self.start_game)
+        self.start_button.clicked.connect(self.login_or_start_game)
 
         self.layout.addWidget(self.start_button)
         self.layout.setAlignment(Qt.AlignCenter)
@@ -199,7 +194,7 @@ class StartScene(QMainWindow):
             '최예람':'2022108151'
         }
 
-    def login(self):
+    def login_or_start_game(self):
         username = self.username_input.text()
         password = self.password_input.text()
     
