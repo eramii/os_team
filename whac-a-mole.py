@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton, QMessageBox, QVBoxLayout, QWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton, QMessageBox, QVBoxLayout, QWidget, QLineEdit
 from PyQt5.QtGui import QFont,QPixmap,QIcon
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtMultimedia import QSound  #bgm모듈 추가 Qsound
