@@ -176,6 +176,43 @@ class StartScene(QMainWindow):
 
         self.layout.addWidget(self.start_button)
         self.layout.setAlignment(Qt.AlignCenter)
+        
+        self.username_input = QLineEdit(self)
+        self.username_input.setPlaceholderText('Username')
+        self.layout.addWidget(self.username_input)
+
+        self.password_input = QLineEdit(self)
+        self.password_input.setPlaceholderText('Password')
+        self.password_input.setEchoMode(QLineEdit.Password)
+        self.layout.addWidget(self.password_input)
+
+        self.login_button = QPushButton('Login', self)
+        self.login_button.setFont(QFont('Arial', 16))
+        self.login_button.clicked.connect(self.login)
+        self.layout.addWidget(self.login_button)
+
+        self.layout.setAlignment(Qt.AlignCenter)
+
+        self.users={
+            '우정균':'2022108145',
+            '현은솔':'2020107140',
+            '최예람':'2022108151'
+        }
+
+    def login(self):
+        username = self.username_input.text()
+        password = self.password_input.text()
+    
+        # 로그인 처리 로직을 여기에 추가
+        # 예를 들어, 사용자가 "admin"이고 비밀번호가 "password"인 경우에만 로그인 성공으로 간주할 수 있습니다.
+        
+        if username in self.users and self.users[username] == password:
+            self.start_game()
+        else:
+            QMessageBox.warning(self, 'Login Failed', 'Invalid username or password')
+
+
+        
 
     def start_game(self):
         self.game_scene = WhacAMoleGame()
