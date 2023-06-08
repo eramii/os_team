@@ -3,6 +3,8 @@ from PyQt5.QtGui import QFont, QPixmap, QIcon
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtMultimedia import QSound  #bgm 모듈 추가
 
+import socket
+import requests #서버관련 모듈
 import random
 
 class WhacAMoleGame(QMainWindow):
@@ -147,6 +149,55 @@ class WhacAMoleGame(QMainWindow):
         msg_box.setInformativeText(message)
         msg_box.exec_()
 
+class SignUpWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle('Sign Up')
+        self.setGeometry(100, 100, 800, 600)
+
+        self.background_label = QLabel(self)
+        self.background_label.setGeometry(0, 0, 800, 600)
+        self.background_label.setPixmap(QPixmap('background.png'))
+
+        self.central_widget = QWidget(self)
+        self.setCentralWidget(self.central_widget)
+        self.layout = QVBoxLayout(self.central_widget)
+
+        self.username_input = QLineEdit(self)
+        self.username_input.setPlaceholderText('Username')
+        self.layout.addWidget(self.username_input)
+
+        self.password_input = QLineEdit(self)
+        self.password_input.setPlaceholderText('Password')
+        self.password_input.setEchoMode(QLineEdit.Password)
+        self.layout.addWidget(self.password_input)
+
+        self.register_button = QPushButton('Register', self)
+        self.register_button.setFont(QFont('Arial', 16))
+        self.register_button.clicked.connect(self.register_user)
+        self.layout.addWidget(self.register_button)
+
+        self.layout.setAlignment(Qt.AlignCenter)
+
+    def register_user(self):
+        username = self.username_input.text()
+        password = self.password_input.text()
+
+        if username and password:
+            # Send registration request to the server
+            url = "http://localhost:5000/register"  # Replace with your server's URL
+            data = {"username": username, "password": password}
+            response = requests.post(url, json=data)
+
+            if response.status_code == 200:
+                QMessageBox.information(self, 'Registration Success', 'User registered successfully!')
+                self.close()
+            else:
+                QMessageBox.warning(self, 'Registration Failed', 'Registration failed. Please try again later.')
+        else:
+            QMessageBox.warning(self, 'Registration Failed', 'Please enter both username and password!')
+
 
 class StartScene(QMainWindow):
     def __init__(self):
@@ -170,8 +221,13 @@ class StartScene(QMainWindow):
         self.start_button = QPushButton('Start Game', self)
         self.start_button.setFont(QFont('Arial', 16))
         self.start_button.clicked.connect(self.login_or_start_game)
-
         self.layout.addWidget(self.start_button)
+        self.layout.setAlignment(Qt.AlignCenter)
+
+        self.signup_button = QPushButton('Sign Up', self) #회원가입 버튼
+        self.signup_button.setFont(QFont('Arial', 16))
+        self.signup_button.clicked.connect(self.open_signup_window)
+        self.layout.addWidget(self.signup_button)
         self.layout.setAlignment(Qt.AlignCenter)
 
         self.username_input = QLineEdit(self)
@@ -185,18 +241,12 @@ class StartScene(QMainWindow):
 
         self.layout.setAlignment(Qt.AlignCenter)
 
-        self.users = {
-            '우정균': '2022108145',
-            '현은솔': '2020107140',
-            '최예람': '2022108151'
-        }
-
     def login_or_start_game(self):
         username = self.username_input.text()
         password = self.password_input.text()
-
+    
         # 로그인 처리 로직을 여기에 추가
-        # 예를 들어, 사용자가 "admin"이고 비밀번호가 "password"인 경우에만 로그인 성공으로 간주할 수 있습니다.
+        # 예를 들어, 사용자가 "admin"이고 비밀번호가 "password"인 경우에만 로그인 성공으로 간주할 수 있습니다. 
         if username in self.users and self.users[username] == password:
             self.start_game()
         else:
@@ -206,6 +256,10 @@ class StartScene(QMainWindow):
         self.game_scene = WhacAMoleGame()
         self.game_scene.start_game()
         self.close()
+
+    def open_signup_window(self):
+        self.signup_window = SignUpWindow()
+        self.signup_window.show()
 
 
 if __name__ == '__main__':
