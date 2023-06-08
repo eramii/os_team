@@ -190,4 +190,4 @@ if __name__ == '__main__':
     game = WhacAMoleGame()
     game.start_game()
     game.start_scene.show()
-app.exec_()
+    app.exec_()
