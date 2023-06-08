@@ -4,7 +4,7 @@ from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtMultimedia import QSound  #bgm 모듈 추가
 
 import socket
-import requests #서버관련 모듈
+import requests
 import random
 
 class WhacAMoleGame(QMainWindow):
@@ -246,8 +246,12 @@ class StartScene(QMainWindow):
         password = self.password_input.text()
     
         # 로그인 처리 로직을 여기에 추가
-        # 예를 들어, 사용자가 "admin"이고 비밀번호가 "password"인 경우에만 로그인 성공으로 간주할 수 있습니다. 
-        if username in self.users and self.users[username] == password:
+        # 예를 들어, 사용자가 "admin"이고 비밀번호가 "password"인 경우에만 로그인 성공으로 간주할 수 있습니다.
+        url = "http://localhost:5000/login"  # 서버 주소
+        data = {"username": username, "password": password}
+        response = requests.post(url, json=data)
+
+        if response.status_code == 200:
             self.start_game()
         else:
             QMessageBox.warning(self, 'Login Failed', 'Invalid username or password')
