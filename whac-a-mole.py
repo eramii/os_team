@@ -183,11 +183,6 @@ class StartScene(QMainWindow):
         self.password_input.setEchoMode(QLineEdit.Password)
         self.layout.addWidget(self.password_input)
 
-        self.login_button = QPushButton('Login', self)
-        self.login_button.setFont(QFont('Arial', 16))
-        self.login_button.clicked.connect(self.login_or_start_game)  #error 수정
-        self.layout.addWidget(self.login_button)
-
         self.layout.setAlignment(Qt.AlignCenter)
 
         self.users = {
@@ -218,4 +213,3 @@ if __name__ == '__main__':
     start_scene = StartScene()
     start_scene.show()
     app.exec_()
-
