@@ -156,12 +156,38 @@ class WhacAMoleGame(QMainWindow):
         QMessageBox.information(self, "게임 종료", message)
 
 
+class StartScene(QMainWindow):
+    def __init__(self):
+        super().__init__()
 
+        self.setWindowTitle('Start Scene')
+        self.setGeometry(100, 100, 800, 600)
+
+        self.background_label = QLabel(self)
+        self.background_label.setGeometry(0, 0, 800, 600)
+        self.background_label.setPixmap(QPixmap('start.png'))
+
+        self.central_widget = QWidget(self)
+        self.setCentralWidget(self.central_widget)
+        self.layout = QVBoxLayout(self.central_widget)
+
+        self.start_button = QPushButton('Start Game', self)
+        self.start_button.setFont(QFont('Arial', 16))
+        self.start_button.clicked.connect(self.start_game)
+
+        self.layout.addWidget(self.start_button)
+        self.layout.setAlignment(Qt.AlignCenter)
+
+    def start_game(self):
+        self.game_scene = WhacAMoleGame()
+        self.game_scene.start_game()
+        self.close()
     
 
 
-
-app = QApplication([])
-game = WhacAMoleGame()
-game.start_game()
+if __name__ == '__main__':
+    app = QApplication([])
+    game = WhacAMoleGame()
+    game.start_game()
+    game.start_scene.show()
 app.exec_()
