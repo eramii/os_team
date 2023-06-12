@@ -17,7 +17,7 @@ def load_registered_users():
     else:
         return {}
 
-@app.before_first_request
+@app.before_request
 def setup():
     global registered_users
     registered_users = load_registered_users()
