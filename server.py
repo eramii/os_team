@@ -1,13 +1,26 @@
+import os
+import pickle
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# In-memory storage for registered users (replace with a database in production)
-registered_users = {
-            '우정균':'2022108145',
-            '현은솔':'2020107140',
-            '최예람':'2022108151'
-}
+registered_users = {}
+
+def save_registered_users():
+    with open('registered_users.pickle', 'wb') as file:
+        pickle.dump(registered_users, file)
+
+def load_registered_users():
+    if os.path.exists('registered_users.pickle'):
+        with open('registered_users.pickle', 'rb') as file:
+            return pickle.load(file)
+    else:
+        return {}
+
+@app.before_first_request
+def setup():
+    global registered_users
+    registered_users = load_registered_users()
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -18,6 +31,7 @@ def register():
     if username and password:
         if username not in registered_users:
             registered_users[username] = password
+            save_registered_users()
             return jsonify({'message': 'User registered successfully'}), 200
         else:
             return jsonify({'message': 'Username already exists'}), 400
